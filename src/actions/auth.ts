@@ -13,6 +13,7 @@ export async function loginWithCredentials(
 ): Promise<LoginFormState> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const callbackUrl = (formData.get("callbackUrl") as string) || "/";
 
   if (!email || !password) {
     return { error: "Si us plau, omple tots els camps." };
@@ -22,7 +23,7 @@ export async function loginWithCredentials(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirectTo: callbackUrl,
     });
     return { success: true };
   } catch (error) {
@@ -39,6 +40,7 @@ export async function loginWithCredentials(
   }
 }
 
-export async function handleSignOut() {
-  await signOut({ redirectTo: "/" });
+export async function handleSignOut(redirectTo?: string) {
+  await signOut({ redirectTo: redirectTo || "/" });
 }
+

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/auth";
-import { handleSignOut } from "@/actions/auth";
+import NavAuthClient from "@/components/NavAuthClient";
 
 export default async function Navbar() {
   const session = await auth();
@@ -47,32 +47,7 @@ export default async function Navbar() {
           )}
         </div>
 
-        <div className="nav-auth">
-          {user ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontSize: "0.9rem", fontWeight: "600" }}>{user.name || user.email}</div>
-                <div style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "bold" }}>
-                  {(user as any).role}
-                </div>
-              </div>
-              <form action={handleSignOut}>
-                <button type="submit" className="btn btn-outline btn-sm">
-                  Sortir
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              <Link href="/auth/login" className="btn btn-outline btn-sm">
-                Iniciar Sessió
-              </Link>
-              <Link href="/auth/register" className="btn btn-primary btn-sm">
-                Registrar-se
-              </Link>
-            </div>
-          )}
-        </div>
+        <NavAuthClient user={user} />
       </div>
     </nav>
   );
